@@ -11,7 +11,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "task")
-public class Task implements Serializable {
+public class Task {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,7 +26,10 @@ public class Task implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "tasks")
+    @ManyToMany
+    @JoinTable(name = "job_task",
+            joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
     private Set<Job> jobs = new HashSet<>();
 
     public Long getId() {

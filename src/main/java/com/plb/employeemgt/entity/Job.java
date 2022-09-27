@@ -11,9 +11,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "job")
-public class Job implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Job {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jobSequenceGenerator")
@@ -29,10 +27,7 @@ public class Job implements Serializable {
     @Column(name = "max_salary")
     private Long maxSalary;
 
-    @ManyToMany
-    @JoinTable(name = "job_task",
-               joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
+    @ManyToMany(mappedBy = "jobs")
     private Set<Task> tasks = new HashSet<>();
 
     @ManyToOne
