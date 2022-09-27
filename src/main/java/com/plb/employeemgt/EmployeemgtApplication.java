@@ -1,9 +1,7 @@
 package com.plb.employeemgt;
 
-import com.plb.employeemgt.entity.Author;
-import com.plb.employeemgt.entity.Vinyl;
-import com.plb.employeemgt.repository.AuthorRepository;
-import com.plb.employeemgt.repository.VinylRepository;
+import com.plb.employeemgt.entity.*;
+import com.plb.employeemgt.repository.*;
 import com.plb.employeemgt.service.VinylService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,7 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.StandardEnvironment;
 
+import javax.transaction.Transactional;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 @SpringBootApplication
 public class EmployeemgtApplication {
@@ -27,9 +28,47 @@ public class EmployeemgtApplication {
     }
 
     @Bean
-    public CommandLineRunner createData(VinylService vinylService) {
+    public CommandLineRunner createData(VinylService vinylService,
+                                        EmployeeRepository employeeRepository,
+                                        JobRepository jobRepository,
+                                        TaskRepository taskRepository) {
         return args -> {
             vinylService.initData();
+            Employee employee1 = new Employee();
+            employee1.setSalary(1500L);
+            employee1.setCommissionPct(10L);
+            employee1.setHireDate(Instant.now());
+
+            Employee employee2 = new Employee();
+            employee2.setSalary(1500L);
+            employee2.setCommissionPct(10L);
+            employee2.setHireDate(Instant.now());
+
+            Employee employee3 = new Employee();
+            employee3.setSalary(1500L);
+            employee3.setCommissionPct(10L);
+            employee3.setHireDate(Instant.now());
+
+            employeeRepository.save(employee1);
+            employeeRepository.save(employee2);
+            employeeRepository.save(employee3);
+
+            Job job = new Job();
+            job.setJobTitle("Developer");
+            job.setMaxSalary(4000L);
+            job.setMinSalary(2000L);
+            job.setEmployee(employee1);
+            jobRepository.save(job);
+
+            Task task = new Task();
+            task.setTitle("Build spring application");
+            task.setDescription("Implements new features");
+            task.getJobs().add(job);
+            taskRepository.save(task);
+
+            task.setDescription("After change in transaction");
+
+            job.getTasks().add(task);
         };
     }
 }

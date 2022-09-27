@@ -7,6 +7,7 @@ import com.plb.employeemgt.repository.AuthorRepository;
 import com.plb.employeemgt.repository.VinylRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,8 @@ public class VinylService {
 
         // Ajout du vinyl dans la liste d'author
         author.getVinyls().add(vinyl);
+
+        author.setName("tata modified in transaction");
 
         System.out.println("Ok c'est sauvegardé");
     }
