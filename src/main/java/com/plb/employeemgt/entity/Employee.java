@@ -19,7 +19,6 @@ public class Employee {
     private Long id;
 
     @Column(name = "hire_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Instant hireDate;
 
     @Column(name = "salary", nullable = false)
@@ -28,9 +27,8 @@ public class Employee {
     @Column(name = "commissionPCT")
     private Long commissionPct;
 
-//    @OneToMany(mappedBy = "employee")
-//    @JsonIgnoreProperties("employee")
-//    private Set<Job> jobs = new HashSet<>();
+    @OneToMany(mappedBy = "employee")
+    private Set<Job> jobs = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -64,13 +62,13 @@ public class Employee {
         this.commissionPct = commissionPct;
     }
 
-//    public Set<Job> getJobs() {
-//        return jobs;
-//    }
-//
-//    public void setJobs(Set<Job> jobs) {
-//        this.jobs = jobs;
-//    }
+    public Set<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Set<Job> jobs) {
+        this.jobs = jobs;
+    }
 
     @Override
     public boolean equals(Object o) {
