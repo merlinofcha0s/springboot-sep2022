@@ -1,10 +1,7 @@
 package com.plb.employeemgt.service;
 
 import com.plb.employeemgt.entity.Employee;
-import com.plb.employeemgt.entity.Job;
 import com.plb.employeemgt.repository.EmployeeRepository;
-import com.plb.employeemgt.repository.TaskRepository;
-import com.plb.employeemgt.service.dto.EmployeeDTO;
 import com.plb.employeemgt.service.dto.EmployeeDTO;
 import com.plb.employeemgt.service.dto.JobDTO;
 import org.springframework.stereotype.Service;
@@ -26,7 +23,10 @@ public class EmployeeService {
     public List<EmployeeDTO> getAll() {
         // Etape 1
         List<Employee> allEmployees = employeeRepository.findAll();
-        // Instanciation de ma liste de DTO
+        return mapEmployees(allEmployees);
+    }
+
+    private List<EmployeeDTO> mapEmployees(List<Employee> allEmployees) {
         List<EmployeeDTO> employeeDTOs = new ArrayList<>();
         // Boucle sur les entites tasks
         // Etape 2
@@ -42,7 +42,16 @@ public class EmployeeService {
             // Ajout dans le tableau de sorti
             employeeDTOs.add(employeeDTO);
         }
-
         return employeeDTOs;
+    }
+
+    public List<EmployeeDTO> getBySalary(Long salary) {
+        List<Employee> allBySalary = employeeRepository.findAllBySalary(salary);
+        return mapEmployees(allBySalary);
+    }
+
+    public List<EmployeeDTO> getByJobTitle(String jobTitle) {
+        List<Employee> allByJobTitle = employeeRepository.findAllByJobs_jobTitleContains(jobTitle);
+        return mapEmployees(allByJobTitle);
     }
 }

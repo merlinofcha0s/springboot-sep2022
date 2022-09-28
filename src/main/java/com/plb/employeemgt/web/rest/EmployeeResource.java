@@ -7,6 +7,7 @@ import com.plb.employeemgt.service.dto.EmployeeDTO;
 import com.plb.employeemgt.service.dto.VinylDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +35,28 @@ public class EmployeeResource {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(allEmployees);
+        }
+    }
+
+    @GetMapping("/get-by-salary/{salary}")
+    public ResponseEntity<List<EmployeeDTO>> getAllBySalary(@PathVariable Long salary) {
+        List<EmployeeDTO> allBySalary = employeeService.getBySalary(salary);
+
+        if (allBySalary.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(allBySalary);
+        }
+    }
+
+    @GetMapping("/get-by-job-title/{jobTitle}")
+    public ResponseEntity<List<EmployeeDTO>> getByJobTitle(@PathVariable String jobTitle) {
+        List<EmployeeDTO> allByJobTitle = employeeService.getByJobTitle(jobTitle);
+
+        if (allByJobTitle.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(allByJobTitle);
         }
     }
 }
