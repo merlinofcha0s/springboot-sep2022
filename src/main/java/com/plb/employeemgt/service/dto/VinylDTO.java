@@ -13,7 +13,6 @@ public class VinylDTO {
 
     private String authorName;
 
-
     public String getSongName() {
         return songName;
     }

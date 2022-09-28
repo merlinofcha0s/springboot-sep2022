@@ -15,11 +15,9 @@ public class Vinyl {
     @SequenceGenerator(name = "vinylSequenceGenerator", allocationSize = 1)
     private Long id;
 
-    @NotNull
     @Column(name = "song_name", nullable = false)
     private String songName;
 
-    @NotNull
     @Column(name = "release_date", nullable = false)
     private LocalDate releaseDate;
 
