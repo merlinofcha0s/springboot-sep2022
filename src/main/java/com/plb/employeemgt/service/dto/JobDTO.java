@@ -16,6 +16,8 @@ public class JobDTO {
 
     private Long maxSalary;
 
+    private Long meanSalary;
+
     public String getJobTitle() {
         return jobTitle;
     }
@@ -38,6 +40,14 @@ public class JobDTO {
 
     public void setMaxSalary(Long maxSalary) {
         this.maxSalary = maxSalary;
+    }
+
+    public Long getMeanSalary() {
+        return meanSalary;
+    }
+
+    public void setMeanSalary(Long meanSalary) {
+        this.meanSalary = meanSalary;
     }
 
     @Override

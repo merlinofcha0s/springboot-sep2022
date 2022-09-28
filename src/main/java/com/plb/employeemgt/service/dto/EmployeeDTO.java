@@ -2,9 +2,7 @@ package com.plb.employeemgt.service.dto;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class EmployeeDTO {
 
@@ -13,6 +11,9 @@ public class EmployeeDTO {
     private Long salary;
 
     private Long commissionPct;
+
+
+    private List<JobDTO> jobs = new ArrayList<>();
 
     public Instant getHireDate() {
         return hireDate;
@@ -36,6 +37,14 @@ public class EmployeeDTO {
 
     public void setCommissionPct(Long commissionPct) {
         this.commissionPct = commissionPct;
+    }
+
+    public List<JobDTO> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<JobDTO> jobs) {
+        this.jobs = jobs;
     }
 
     @Override

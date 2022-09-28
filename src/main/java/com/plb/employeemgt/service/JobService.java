@@ -8,7 +8,10 @@ import com.plb.employeemgt.service.dto.TaskDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class JobService {
@@ -22,16 +25,18 @@ public class JobService {
     public List<JobDTO> getAll() {
         // Etape 1
         List<Job> allJobs = jobRepository.findAll();
-        // Instanciation de ma liste de DTO
+        return mapJobs(new HashSet<>(allJobs));
+    }
+
+    public List<JobDTO> mapJobs(Set<Job> jobs) {
         List<JobDTO> jobDTOS = new ArrayList<>();
-        // Boucle sur les entites tasks
-        // Etape 2
-        for (Job job : allJobs) {
+        for (Job job : jobs) {
             // Creation de mes DTOs
             JobDTO jobDTO = new JobDTO();
             jobDTO.setJobTitle(job.getJobTitle());
             jobDTO.setMinSalary(job.getMinSalary());
             jobDTO.setMaxSalary(job.getMaxSalary());
+            jobDTO.setMeanSalary(78L);
             // Ajout dans le tableau de sorti
             jobDTOS.add(jobDTO);
         }
