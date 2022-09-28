@@ -36,10 +36,11 @@ public class VinylService {
 
         // Etape 1
         List<Vinyl> allVinyls = vinylRepository.findAll();
-        // Instanciation de ma liste de DTO
+        return mapVinyls(allVinyls);
+    }
+
+    private List<VinylDTO> mapVinyls(List<Vinyl> allVinyls) {
         List<VinylDTO> vinylDTOs = new ArrayList<>();
-        // Boucle sur les entites vinyls
-        // Etape 2
         for (Vinyl vinyl : allVinyls) {
             // Creation de mes DTOs
             VinylDTO vinylDTO = new VinylDTO();
@@ -49,13 +50,16 @@ public class VinylService {
             // Ajout dans le tableau de sorti
             vinylDTOs.add(vinylDTO);
         }
-
-        // Etape 3
         return vinylDTOs;
     }
 
     // Recuperer les vinyls par auteur
-    // Recupere les vinyls par id
+    public List<VinylDTO> getByAuthor(String authorName){
+        List<Vinyl> vinylsByAuthor = vinylRepository.findAllByAuthor_Name(authorName);
+        return mapVinyls(vinylsByAuthor);
+    }
+
+
     // Sauvegarder un vinyl
     // Supprimer un vinyl
 

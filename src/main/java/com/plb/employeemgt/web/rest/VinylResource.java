@@ -5,6 +5,7 @@ import com.plb.employeemgt.service.VinylService;
 import com.plb.employeemgt.service.dto.VinylDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/vinyls")
 public class VinylResource {
 
-    private VinylService vinylService;
+    private final VinylService vinylService;
 
     public VinylResource(VinylService vinylService) {
         this.vinylService = vinylService;
@@ -32,6 +33,17 @@ public class VinylResource {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(allVinyls);
+        }
+    }
+
+    @GetMapping("/by-author-name/{name}")
+    public ResponseEntity<List<VinylDTO>> getByAuthorName(@PathVariable String name) {
+        List<VinylDTO> vinylsByAuthorName = vinylService.getByAuthor(name);
+
+        if (vinylsByAuthorName.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(vinylsByAuthorName);
         }
     }
 }
