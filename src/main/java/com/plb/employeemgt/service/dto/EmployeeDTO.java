@@ -12,7 +12,6 @@ public class EmployeeDTO {
 
     private Long commissionPct;
 
-
     private List<JobDTO> jobs = new ArrayList<>();
 
     public Instant getHireDate() {

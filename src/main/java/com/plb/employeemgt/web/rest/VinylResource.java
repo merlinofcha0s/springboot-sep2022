@@ -4,11 +4,9 @@ import com.plb.employeemgt.entity.Vinyl;
 import com.plb.employeemgt.service.VinylService;
 import com.plb.employeemgt.service.dto.VinylDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -45,5 +43,10 @@ public class VinylResource {
         } else {
             return ResponseEntity.ok(vinylsByAuthorName);
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<VinylDTO> save(@Valid @RequestBody VinylDTO vinylDTO) {
+        return ResponseEntity.ok(vinylService.save(vinylDTO));
     }
 }

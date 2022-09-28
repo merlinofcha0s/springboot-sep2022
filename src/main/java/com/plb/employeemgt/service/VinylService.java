@@ -54,11 +54,31 @@ public class VinylService {
     }
 
     // Recuperer les vinyls par auteur
-    public List<VinylDTO> getByAuthor(String authorName){
+    public List<VinylDTO> getByAuthor(String authorName) {
         List<Vinyl> vinylsByAuthor = vinylRepository.findAllByAuthor_Name(authorName);
         return mapVinyls(vinylsByAuthor);
     }
 
+    public VinylDTO save(VinylDTO vinylDTO) {
+        Vinyl vinylToSave = mapDTOToEntity(vinylDTO);
+        Vinyl vinylSaved = vinylRepository.save(vinylToSave);
+        return mapEntityToDTO(vinylSaved);
+    }
+
+    private Vinyl mapDTOToEntity(VinylDTO vinylDTO) {
+        Vinyl vinyl = new Vinyl();
+        vinyl.setSongName(vinylDTO.getSongName());
+        vinyl.setReleaseDate(vinylDTO.getReleaseDate());
+        return vinyl;
+    }
+
+    private VinylDTO mapEntityToDTO(Vinyl vinyl) {
+        VinylDTO vinylDTO = new VinylDTO();
+        vinylDTO.setSongName(vinyl.getSongName());
+        vinylDTO.setReleaseDate(vinyl.getReleaseDate());
+//        vinylDTO.setAuthorName(vinyl.getAuthor().getName());
+        return vinylDTO;
+    }
 
     // Sauvegarder un vinyl
     // Supprimer un vinyl
