@@ -1,5 +1,6 @@
 package com.plb.employeemgt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;

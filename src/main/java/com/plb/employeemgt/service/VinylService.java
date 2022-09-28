@@ -5,10 +5,12 @@ import com.plb.employeemgt.entity.Author;
 import com.plb.employeemgt.entity.Vinyl;
 import com.plb.employeemgt.repository.AuthorRepository;
 import com.plb.employeemgt.repository.VinylRepository;
+import com.plb.employeemgt.service.dto.VinylDTO;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -23,6 +25,39 @@ public class VinylService {
         this.vinylRepository = vinylRepository;
         this.authorRepository = authorRepository;
     }
+
+
+    // Methode pour recuperer tous les vinyls
+    public List<VinylDTO> getAll() {
+        // Qu'est ce que je dois faire ?
+        // Etape 1 : Je dois aller chercher mes vinyls dans ma base de données
+        // Etape 2 : Je transforme mes entités vinyls en DTO
+        // Etape 3 : Je renvoi ma liste de DTO
+
+        // Etape 1
+        List<Vinyl> allVinyls = vinylRepository.findAll();
+        // Instanciation de ma liste de DTO
+        List<VinylDTO> vinylDTOs = new ArrayList<>();
+        // Boucle sur les entites vinyls
+        // Etape 2
+        for (Vinyl vinyl : allVinyls) {
+            // Creation de mes DTOs
+            VinylDTO vinylDTO = new VinylDTO();
+            vinylDTO.setSongName(vinyl.getSongName());
+            vinylDTO.setReleaseDate(vinyl.getReleaseDate());
+            vinylDTO.setAuthorName(vinyl.getAuthor().getName());
+            // Ajout dans le tableau de sorti
+            vinylDTOs.add(vinylDTO);
+        }
+
+        // Etape 3
+        return vinylDTOs;
+    }
+
+    // Recuperer les vinyls par auteur
+    // Recupere les vinyls par id
+    // Sauvegarder un vinyl
+    // Supprimer un vinyl
 
     public void initData() {
         // Creation de mon entite
@@ -41,6 +76,11 @@ public class VinylService {
         // Sauvegarde dans la base de données
         vinylRepository.save(vinyl);
 
+        Vinyl vinyl1 = new Vinyl();
+        vinyl1.setReleaseDate(LocalDate.now());
+        vinyl1.setSongName("tata");
+        vinyl1.setAuthor(author);
+        vinylRepository.save(vinyl1);
         // Ajout du vinyl dans la liste d'author
         author.getVinyls().add(vinyl);
 
