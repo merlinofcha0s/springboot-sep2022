@@ -1,12 +1,12 @@
 package com.plb.employeemgt.web.rest;
 
-import com.plb.employeemgt.entity.Employee;
 import com.plb.employeemgt.service.EmployeeService;
-import com.plb.employeemgt.service.VinylService;
 import com.plb.employeemgt.service.dto.EmployeeDTO;
-import com.plb.employeemgt.service.dto.VinylDTO;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/employees")
 public class EmployeeResource {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     public EmployeeResource(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -66,5 +66,25 @@ public class EmployeeResource {
     @PutMapping
     public ResponseEntity<EmployeeDTO> update(@Valid @RequestBody EmployeeDTO employeeDTO) {
         return ResponseEntity.ok(employeeService.save(employeeDTO));
+    }
+
+    @DeleteMapping("/by-salary/{salary}")
+    public ResponseEntity<Void> delete(@PathVariable Long salary) {
+        int nbRemoved = employeeService.deleteBySalary(salary);
+        if (nbRemoved == 0) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/by-id/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        try {
+            employeeService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (EmptyResultDataAccessException erdae) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Employee not found with id : " + id);
+        }
     }
 }

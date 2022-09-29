@@ -35,7 +35,7 @@ public class EmployeemgtApplication {
         return args -> {
             vinylService.initData();
             Employee employee1 = new Employee();
-            employee1.setSalary(1500L);
+            employee1.setSalary(1600L);
             employee1.setCommissionPct(10L);
             employee1.setHireDate(Instant.now());
 
@@ -45,7 +45,7 @@ public class EmployeemgtApplication {
             employee2.setHireDate(Instant.now());
 
             Employee employee3 = new Employee();
-            employee3.setSalary(1500L);
+            employee3.setSalary(1700L);
             employee3.setCommissionPct(10L);
             employee3.setHireDate(Instant.now());
 

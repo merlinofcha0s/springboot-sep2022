@@ -27,7 +27,7 @@ public class Employee {
     @Column(name = "commissionPCT")
     private Long commissionPct;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
     private Set<Job> jobs = new HashSet<>();
 
     public Long getId() {

@@ -27,7 +27,7 @@ public class Job {
     @Column(name = "max_salary")
     private Long maxSalary;
 
-    @ManyToMany(mappedBy = "jobs")
+    @ManyToMany(mappedBy = "jobs", cascade = CascadeType.REMOVE)
     private Set<Task> tasks = new HashSet<>();
 
     @ManyToOne

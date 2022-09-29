@@ -1,13 +1,13 @@
 package com.plb.employeemgt.service;
 
 import com.plb.employeemgt.entity.Employee;
-import com.plb.employeemgt.entity.Vinyl;
 import com.plb.employeemgt.repository.EmployeeRepository;
 import com.plb.employeemgt.service.dto.EmployeeDTO;
 import com.plb.employeemgt.service.dto.JobDTO;
-import com.plb.employeemgt.service.dto.VinylDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,5 +76,15 @@ public class EmployeeService {
         employee.setSalary(employeeDTO.getSalary());
         employee.setHireDate(employeeDTO.getHireDate());
         return employee;
+    }
+
+    @Transactional
+    public int deleteBySalary(Long salary) {
+        return employeeRepository.deleteBySalary(salary);
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        employeeRepository.deleteById(id);
     }
 }
