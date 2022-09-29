@@ -2,6 +2,7 @@ package com.plb.employeemgt.service;
 
 import com.plb.employeemgt.EmployeemgtApplication;
 import com.plb.employeemgt.entity.Employee;
+import com.plb.employeemgt.entity.Vinyl;
 import com.plb.employeemgt.repository.EmployeeRepository;
 import com.plb.employeemgt.service.dto.EmployeeDTO;
 import com.plb.employeemgt.service.dto.VinylDTO;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,9 +42,18 @@ public class EmployeeServiceTest {
         return employee;
     }
 
+    private EmployeeDTO createDTO() {
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setSalary(DEFAULT_SALARY);
+        employeeDTO.setCommissionPct(DEFAULT_COMMISSION_PCT);
+        employeeDTO.setHireDate(DEFAULT_HIRE_DATE);
+        return employeeDTO;
+    }
+
     @BeforeEach
     public void init() {
         employee = createEntity();
+        employeeRepository.deleteAll();
     }
 
     @Test
@@ -58,5 +69,18 @@ public class EmployeeServiceTest {
         assertThat(allEmployeeInDB.size()).isEqualTo(2);
         assertThat(allEmployeeInDB)
                 .extracting(EmployeeDTO::getCommissionPct).contains(DEFAULT_COMMISSION_PCT);
+    }
+
+    @Test
+    public void saveSuccess() {
+        EmployeeDTO employeeDTO = employeeService.save(createDTO());
+
+        Optional<Employee> employeeToVerify =
+                employeeRepository.findById(employeeDTO.getId());
+
+        assertThat(employeeToVerify).isPresent();
+        assertThat(employeeToVerify.get().getSalary()).isEqualTo(DEFAULT_SALARY);
+        assertThat(employeeToVerify.get().getHireDate()).isEqualTo(DEFAULT_HIRE_DATE);
+        assertThat(employeeToVerify.get().getCommissionPct()).isEqualTo(DEFAULT_COMMISSION_PCT);
     }
 }

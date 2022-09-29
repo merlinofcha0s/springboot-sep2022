@@ -64,10 +64,10 @@ public class VinylServiceTest {
 
     @BeforeEach
     public void init() {
+        vinylRepository.deleteAll();
         vinylDTO = createDTO();
         vinyl = createEntity();
         author = createAuthorEntity();
-
     }
 
     @Test
