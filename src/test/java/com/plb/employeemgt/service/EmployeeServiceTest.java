@@ -41,7 +41,7 @@ public class EmployeeServiceTest {
 
     private Employee employee;
 
-    private Employee createEntity() {
+    public static Employee createEntity() {
         Employee employee = new Employee();
         employee.setCommissionPct(DEFAULT_COMMISSION_PCT);
         employee.setSalary(DEFAULT_SALARY);
@@ -49,7 +49,7 @@ public class EmployeeServiceTest {
         return employee;
     }
 
-    private EmployeeDTO createDTO() {
+    public static EmployeeDTO createDTO() {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setSalary(DEFAULT_SALARY);
         employeeDTO.setCommissionPct(DEFAULT_COMMISSION_PCT);

@@ -1,0 +1,82 @@
+package com.plb.employeemgt.web.rest;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plb.employeemgt.EmployeemgtApplication;
+import com.plb.employeemgt.entity.Author;
+import com.plb.employeemgt.entity.Employee;
+import com.plb.employeemgt.entity.Vinyl;
+import com.plb.employeemgt.repository.AuthorRepository;
+import com.plb.employeemgt.repository.EmployeeRepository;
+import com.plb.employeemgt.service.EmployeeServiceTest;
+import com.plb.employeemgt.service.VinylServiceTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.hasItems;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest(classes = EmployeemgtApplication.class)
+@AutoConfigureMockMvc
+public class EmployeeResourceIT {
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    private Employee employee;
+
+    @Autowired
+    private MockMvc restEmployeeMockMVC;
+
+    private final ObjectMapper mapper = new ObjectMapper();
+
+    @BeforeEach
+    public void init() {
+        employee = EmployeeServiceTest.createEntity();
+    }
+
+    @Test
+    public void getAllEmployees() throws Exception {
+        employeeRepository.save(employee);
+
+        Employee secondEmployee = EmployeeServiceTest.createEntity();
+        employeeRepository.save(secondEmployee);
+
+        restEmployeeMockMVC.perform(MockMvcRequestBuilders.get("/api/employees"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[*].salary")
+                        .value(hasItems(employee.getSalary().intValue(),
+                                secondEmployee.getSalary().intValue())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[*].hireDate")
+                        .value(hasItems(employee.getHireDate().toString(),
+                                secondEmployee.getHireDate().toString())));
+    }
+
+
+    @Test
+    public void save() throws Exception {
+        int databaseSizeCreate = employeeRepository.findAll().size();
+
+        restEmployeeMockMVC.perform(post("/api/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "    \"id\": \"90009\",\n" +
+                        "    \"hireDate\": \"2022-09-28T13:08:49.035812Z\",\n" +
+                        "    \"salary\" : \"5000\",\n" +
+                        "    \"commissionPct\": 12\n" +
+                        "}")).andExpect(status().isOk());
+
+        List<Employee> all = employeeRepository.findAll();
+        assertThat(all.size()).isEqualTo(databaseSizeCreate + 1);
+    }
+}
