@@ -2,13 +2,12 @@ package com.plb.employeemgt.service;
 
 import com.plb.employeemgt.EmployeemgtApplication;
 import com.plb.employeemgt.entity.Employee;
-import com.plb.employeemgt.entity.Vinyl;
 import com.plb.employeemgt.repository.EmployeeRepository;
 import com.plb.employeemgt.service.dto.EmployeeDTO;
-import com.plb.employeemgt.service.dto.VinylDTO;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -32,6 +31,14 @@ public class EmployeeServiceTest {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Mock
+    private EmployeeRepository mockedEmployeeRepository;
+
+    @Autowired
+    private JobService jobService;
+
+    private EmployeeService employeeServiceWithMockedRepository;
+
     private Employee employee;
 
     private Employee createEntity() {
@@ -52,6 +59,8 @@ public class EmployeeServiceTest {
 
     @BeforeEach
     public void init() {
+        employeeServiceWithMockedRepository
+                = new EmployeeService(mockedEmployeeRepository, jobService);
         employee = createEntity();
         employeeRepository.deleteAll();
     }
@@ -82,5 +91,17 @@ public class EmployeeServiceTest {
         assertThat(employeeToVerify.get().getSalary()).isEqualTo(DEFAULT_SALARY);
         assertThat(employeeToVerify.get().getHireDate()).isEqualTo(DEFAULT_HIRE_DATE);
         assertThat(employeeToVerify.get().getCommissionPct()).isEqualTo(DEFAULT_COMMISSION_PCT);
+    }
+
+    @Test
+    public void saveSuccessWithMock() {
+        Mockito.when(mockedEmployeeRepository.save(Mockito.any())).thenReturn(createEntity());
+
+        EmployeeDTO employeeDTO = employeeServiceWithMockedRepository.save(createDTO());
+
+        assertThat(employeeDTO).isNotNull();
+        assertThat(employeeDTO.getSalary()).isEqualTo(DEFAULT_SALARY);
+        assertThat(employeeDTO.getHireDate()).isEqualTo(DEFAULT_HIRE_DATE);
+        assertThat(employeeDTO.getCommissionPct()).isEqualTo(DEFAULT_COMMISSION_PCT);
     }
 }

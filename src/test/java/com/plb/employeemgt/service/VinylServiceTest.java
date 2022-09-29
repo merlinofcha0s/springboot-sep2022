@@ -8,6 +8,8 @@ import com.plb.employeemgt.repository.VinylRepository;
 import com.plb.employeemgt.service.dto.VinylDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -34,6 +36,11 @@ public class VinylServiceTest {
 
     @Autowired
     private AuthorRepository authorRepository;
+
+    @Mock
+    private VinylRepository mockedVinylRepository;
+
+    private VinylService vinylServiceWithMockedRepository;
 
     private VinylDTO vinylDTO;
     private Vinyl vinyl;
@@ -64,6 +71,7 @@ public class VinylServiceTest {
 
     @BeforeEach
     public void init() {
+        vinylServiceWithMockedRepository = new VinylService(mockedVinylRepository, authorRepository);
         vinylRepository.deleteAll();
         vinylDTO = createDTO();
         vinyl = createEntity();
@@ -102,5 +110,16 @@ public class VinylServiceTest {
         assertThat(vinylToVerify).isPresent();
         assertThat(vinylToVerify.get().getSongName()).isEqualTo(DEFAULT_SONG_NAME);
         assertThat(vinylToVerify.get().getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
+    }
+
+    @Test
+    public void saveSuccessWithMock() {
+        Mockito.when(mockedVinylRepository.save(Mockito.any())).thenReturn(createEntity());
+
+        VinylDTO vinylSaved = vinylServiceWithMockedRepository.save(createDTO());
+
+        assertThat(vinylSaved).isNotNull();
+        assertThat(vinylSaved.getSongName()).isEqualTo(DEFAULT_SONG_NAME);
+        assertThat(vinylSaved.getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
     }
 }
