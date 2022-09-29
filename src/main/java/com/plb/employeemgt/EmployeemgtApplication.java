@@ -33,7 +33,7 @@ public class EmployeemgtApplication {
                                         JobRepository jobRepository,
                                         TaskRepository taskRepository) {
         return args -> {
-            vinylService.initData();
+//            vinylService.initData();
             Employee employee1 = new Employee();
             employee1.setSalary(1600L);
             employee1.setCommissionPct(10L);
