@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -89,5 +90,17 @@ public class VinylServiceTest {
         assertThat(allVinylsInDB.size()).isEqualTo(2);
         assertThat(allVinylsInDB)
                 .extracting(VinylDTO::getSongName).contains(DEFAULT_SONG_NAME);
+    }
+
+    @Test
+    public void saveSuccess() {
+        VinylDTO vinylSaved = vinylService.save(createDTO());
+
+        Optional<Vinyl> vinylToVerify =
+                vinylRepository.findOneBySongName(vinylSaved.getSongName());
+
+        assertThat(vinylToVerify).isPresent();
+        assertThat(vinylToVerify.get().getSongName()).isEqualTo(DEFAULT_SONG_NAME);
+        assertThat(vinylToVerify.get().getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
     }
 }
