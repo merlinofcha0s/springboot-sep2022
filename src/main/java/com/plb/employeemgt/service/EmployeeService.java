@@ -1,9 +1,11 @@
 package com.plb.employeemgt.service;
 
 import com.plb.employeemgt.entity.Employee;
+import com.plb.employeemgt.entity.Vinyl;
 import com.plb.employeemgt.repository.EmployeeRepository;
 import com.plb.employeemgt.service.dto.EmployeeDTO;
 import com.plb.employeemgt.service.dto.JobDTO;
+import com.plb.employeemgt.service.dto.VinylDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,10 +34,7 @@ public class EmployeeService {
         // Etape 2
         for (Employee employee : allEmployees) {
             // Creation de mes DTOs
-            EmployeeDTO employeeDTO = new EmployeeDTO();
-            employeeDTO.setHireDate(employee.getHireDate());
-            employeeDTO.setSalary(employee.getSalary());
-            employeeDTO.setCommissionPct(employee.getCommissionPct());
+            EmployeeDTO employeeDTO = mapEntityToDTO(employee);
             List<JobDTO> jobDTOS = jobService.mapJobs(employee.getJobs());
             employeeDTO.setJobs(jobDTOS);
 
@@ -53,5 +52,29 @@ public class EmployeeService {
     public List<EmployeeDTO> getByJobTitle(String jobTitle) {
         List<Employee> allByJobTitle = employeeRepository.findAllByJobs_jobTitleContains(jobTitle);
         return mapEmployees(allByJobTitle);
+    }
+
+    public EmployeeDTO save(EmployeeDTO employeeDTO) {
+        Employee employeeToSave = mapDTOToEntity(employeeDTO);
+        Employee employeeSaved = employeeRepository.save(employeeToSave);
+        return mapEntityToDTO(employeeSaved);
+    }
+
+    private EmployeeDTO mapEntityToDTO(Employee employeeSaved) {
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setId(employeeSaved.getId());
+        employeeDTO.setSalary(employeeSaved.getSalary());
+        employeeDTO.setCommissionPct(employeeSaved.getCommissionPct());
+        employeeDTO.setHireDate(employeeSaved.getHireDate());
+        return employeeDTO;
+    }
+
+    private Employee mapDTOToEntity(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        employee.setId(employeeDTO.getId());
+        employee.setCommissionPct(employeeDTO.getCommissionPct());
+        employee.setSalary(employeeDTO.getSalary());
+        employee.setHireDate(employeeDTO.getHireDate());
+        return employee;
     }
 }

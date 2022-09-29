@@ -1,18 +1,32 @@
 package com.plb.employeemgt.service.dto;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.*;
 
 public class EmployeeDTO {
 
+    private Long id;
+
+    @NotNull
     private Instant hireDate;
 
+    @NotNull
     private Long salary;
 
+    @NotNull
     private Long commissionPct;
 
     private List<JobDTO> jobs = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Instant getHireDate() {
         return hireDate;

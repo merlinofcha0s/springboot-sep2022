@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface VinylRepository extends JpaRepository<Vinyl, Long> {
     List<Vinyl> findAllByAuthor_Name(String name);
+    void deleteBySongName(String songName);
 }

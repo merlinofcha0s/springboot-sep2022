@@ -6,11 +6,9 @@ import com.plb.employeemgt.service.VinylService;
 import com.plb.employeemgt.service.dto.EmployeeDTO;
 import com.plb.employeemgt.service.dto.VinylDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -58,5 +56,15 @@ public class EmployeeResource {
         } else {
             return ResponseEntity.ok(allByJobTitle);
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<EmployeeDTO> save(@Valid @RequestBody EmployeeDTO employeeDTO) {
+        return ResponseEntity.ok(employeeService.save(employeeDTO));
+    }
+
+    @PutMapping
+    public ResponseEntity<EmployeeDTO> update(@Valid @RequestBody EmployeeDTO employeeDTO) {
+        return ResponseEntity.ok(employeeService.save(employeeDTO));
     }
 }

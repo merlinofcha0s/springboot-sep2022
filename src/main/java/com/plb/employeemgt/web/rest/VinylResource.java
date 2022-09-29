@@ -49,4 +49,10 @@ public class VinylResource {
     public ResponseEntity<VinylDTO> save(@Valid @RequestBody VinylDTO vinylDTO) {
         return ResponseEntity.ok(vinylService.save(vinylDTO));
     }
+
+    @DeleteMapping("/{songName}")
+    public ResponseEntity<Void> delete(@PathVariable String songName) {
+        vinylService.delete(songName);
+        return ResponseEntity.ok().build();
+    }
 }

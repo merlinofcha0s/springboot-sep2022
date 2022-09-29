@@ -65,6 +65,11 @@ public class VinylService {
         return mapEntityToDTO(vinylSaved);
     }
 
+    @Transactional
+    public void delete(String songName) {
+        vinylRepository.deleteBySongName(songName);
+    }
+
     private Vinyl mapDTOToEntity(VinylDTO vinylDTO) {
         Vinyl vinyl = new Vinyl();
         vinyl.setSongName(vinylDTO.getSongName());
@@ -80,7 +85,6 @@ public class VinylService {
         return vinylDTO;
     }
 
-    // Sauvegarder un vinyl
     // Supprimer un vinyl
 
     public void initData() {
