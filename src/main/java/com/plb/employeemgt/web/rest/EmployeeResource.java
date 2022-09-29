@@ -2,6 +2,8 @@ package com.plb.employeemgt.web.rest;
 
 import com.plb.employeemgt.service.EmployeeService;
 import com.plb.employeemgt.service.dto.EmployeeDTO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ public class EmployeeResource {
         this.employeeService = employeeService;
     }
 
+    @ApiOperation(value = "Allow users to fetch all employees informations")
     @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getAll() {
         // Etape 5 : Creation de ma resource (VinylResource)
