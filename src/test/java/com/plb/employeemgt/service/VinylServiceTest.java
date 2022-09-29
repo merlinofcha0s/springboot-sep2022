@@ -61,7 +61,7 @@ public class VinylServiceTest {
         return vinyl;
     }
 
-    private static Author createAuthorEntity() {
+    public static Author createAuthorEntity() {
         Author author = new Author();
         author.setName(VinylServiceTest.DEFAULT_AUTHOR_NAME);
         author.setFirstname(DEFAULT_AUTHOR_FIRSTNAME);
