@@ -1,10 +1,10 @@
 package com.plb.employeemgt.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Task entity
@@ -16,9 +16,9 @@ public class Task {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taskSequenceGenerator")
-    @SequenceGenerator(name = "taskSequenceGenerator")
-    private Long id;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue
+    private UUID id;
 
     @Column(name = "title")
     private String title;
@@ -32,11 +32,11 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
     private Set<Job> jobs = new HashSet<>();
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

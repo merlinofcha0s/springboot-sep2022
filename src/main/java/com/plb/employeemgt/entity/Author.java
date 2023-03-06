@@ -2,16 +2,18 @@ package com.plb.employeemgt.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "author")
 public class Author {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authorSequenceGenerator")
-    @SequenceGenerator(name = "authorSequenceGenerator", allocationSize = 1)
-    private Long id;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue
+    private UUID id;
 
     @Column(name = "firstname")
     private String firstname;
@@ -25,11 +27,11 @@ public class Author {
     @OneToMany(mappedBy = "author")
     private Set<Vinyl> vinyls = new HashSet<>();
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

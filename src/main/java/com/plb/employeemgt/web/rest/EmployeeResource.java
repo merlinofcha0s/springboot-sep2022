@@ -2,7 +2,6 @@ package com.plb.employeemgt.web.rest;
 
 import com.plb.employeemgt.service.EmployeeService;
 import com.plb.employeemgt.service.dto.EmployeeDTO;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -12,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -81,7 +81,7 @@ public class EmployeeResource {
     }
 
     @DeleteMapping("/by-id/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
         try {
             employeeService.deleteById(id);
             return ResponseEntity.ok().build();

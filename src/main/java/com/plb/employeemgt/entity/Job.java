@@ -1,10 +1,10 @@
 package com.plb.employeemgt.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * A Job.
@@ -14,9 +14,9 @@ import java.util.Set;
 public class Job {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jobSequenceGenerator")
-    @SequenceGenerator(name = "jobSequenceGenerator")
-    private Long id;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue
+    private UUID id;
 
     @Column(name = "job_title")
     private String jobTitle;
@@ -33,11 +33,11 @@ public class Job {
     @ManyToOne
     private Employee employee;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

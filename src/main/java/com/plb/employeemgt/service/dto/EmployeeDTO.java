@@ -1,13 +1,15 @@
 package com.plb.employeemgt.service.dto;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class EmployeeDTO {
 
-    private Long id;
+    private UUID id;
 
     @NotNull
     private Instant hireDate;
@@ -20,11 +22,11 @@ public class EmployeeDTO {
 
     private List<JobDTO> jobs = new ArrayList<>();
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

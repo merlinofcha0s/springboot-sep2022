@@ -6,15 +6,12 @@ import com.plb.employeemgt.entity.Vinyl;
 import com.plb.employeemgt.repository.AuthorRepository;
 import com.plb.employeemgt.repository.VinylRepository;
 import com.plb.employeemgt.service.dto.VinylDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 
 @Service
 public class VinylService {

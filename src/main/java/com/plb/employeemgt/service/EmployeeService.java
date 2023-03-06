@@ -4,12 +4,12 @@ import com.plb.employeemgt.entity.Employee;
 import com.plb.employeemgt.repository.EmployeeRepository;
 import com.plb.employeemgt.service.dto.EmployeeDTO;
 import com.plb.employeemgt.service.dto.JobDTO;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class EmployeeService {
@@ -84,7 +84,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void deleteById(Long id) {
+    public void deleteById(UUID id) {
         employeeRepository.deleteById(id);
     }
 }

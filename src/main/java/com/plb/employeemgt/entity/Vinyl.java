@@ -1,19 +1,17 @@
 package com.plb.employeemgt.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "vinyl")
 public class Vinyl {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vinylSequenceGenerator")
-    @SequenceGenerator(name = "vinylSequenceGenerator", allocationSize = 1)
-    private Long id;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue
+    private UUID id;
 
     @Column(name = "song_name", nullable = false)
     private String songName;
@@ -24,11 +22,11 @@ public class Vinyl {
     @ManyToOne
     private Author author;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

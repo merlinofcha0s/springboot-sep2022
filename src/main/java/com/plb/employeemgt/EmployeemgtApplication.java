@@ -1,20 +1,17 @@
 package com.plb.employeemgt;
 
-import com.plb.employeemgt.entity.*;
-import com.plb.employeemgt.repository.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.plb.employeemgt.repository.EmployeeRepository;
+import com.plb.employeemgt.repository.JobRepository;
+import com.plb.employeemgt.repository.TaskRepository;
 import com.plb.employeemgt.service.VinylService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.StandardEnvironment;
-
-import javax.transaction.Transactional;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
 
 @SpringBootApplication
 public class EmployeemgtApplication {
@@ -70,5 +67,12 @@ public class EmployeemgtApplication {
 //
 //            job.getTasks().add(task);
         };
+    }
+
+    @Bean
+    public ObjectMapper defaultMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 }

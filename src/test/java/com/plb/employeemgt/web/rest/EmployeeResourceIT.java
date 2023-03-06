@@ -2,13 +2,9 @@ package com.plb.employeemgt.web.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plb.employeemgt.EmployeemgtApplication;
-import com.plb.employeemgt.entity.Author;
 import com.plb.employeemgt.entity.Employee;
-import com.plb.employeemgt.entity.Vinyl;
-import com.plb.employeemgt.repository.AuthorRepository;
 import com.plb.employeemgt.repository.EmployeeRepository;
 import com.plb.employeemgt.service.EmployeeServiceTest;
-import com.plb.employeemgt.service.VinylServiceTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +34,8 @@ public class EmployeeResourceIT {
     @Autowired
     private MockMvc restEmployeeMockMVC;
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper mapper;
 
     @BeforeEach
     public void init() {
@@ -67,14 +64,12 @@ public class EmployeeResourceIT {
     public void save() throws Exception {
         int databaseSizeCreate = employeeRepository.findAll().size();
 
+        Employee secondEmployee = EmployeeServiceTest.createEntity();
+
         restEmployeeMockMVC.perform(post("/api/employees")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "    \"id\": \"90009\",\n" +
-                        "    \"hireDate\": \"2022-09-28T13:08:49.035812Z\",\n" +
-                        "    \"salary\" : \"5000\",\n" +
-                        "    \"commissionPct\": 12\n" +
-                        "}")).andExpect(status().isOk());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(secondEmployee)))
+                .andExpect(status().isOk());
 
         List<Employee> all = employeeRepository.findAll();
         assertThat(all.size()).isEqualTo(databaseSizeCreate + 1);

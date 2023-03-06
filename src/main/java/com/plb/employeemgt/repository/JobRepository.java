@@ -3,6 +3,8 @@ package com.plb.employeemgt.repository;
 import com.plb.employeemgt.entity.Job;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface JobRepository extends JpaRepository<Job, Long> {
+import java.util.UUID;
+
+public interface JobRepository extends JpaRepository<Job, UUID> {
 
 }

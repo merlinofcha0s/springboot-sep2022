@@ -1,22 +1,20 @@
 package com.plb.employeemgt.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "employee")
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employeeSequenceGenerator")
-    @SequenceGenerator(name = "employeeSequenceGenerator", allocationSize = 1)
-    private Long id;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue
+    private UUID id;
 
     @Column(name = "hire_date", nullable = false)
     private Instant hireDate;
@@ -30,11 +28,11 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
     private Set<Job> jobs = new HashSet<>();
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
