@@ -1,6 +1,5 @@
 package com.plb.employeemgt.web.rest;
 
-import com.plb.employeemgt.entity.Vinyl;
 import com.plb.employeemgt.service.VinylService;
 import com.plb.employeemgt.service.dto.VinylDTO;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +33,8 @@ public class VinylResource {
         }
     }
 
-    @GetMapping("/by-author-name/{name}")
-    public ResponseEntity<List<VinylDTO>> getByAuthorName(@PathVariable String name) {
+    @GetMapping("/by-author-name")
+    public ResponseEntity<List<VinylDTO>> getByAuthorName(@RequestParam String name) {
         List<VinylDTO> vinylsByAuthorName = vinylService.getByAuthor(name);
 
         if (vinylsByAuthorName.isEmpty()) {
@@ -50,8 +49,8 @@ public class VinylResource {
         return ResponseEntity.ok(vinylService.save(vinylDTO));
     }
 
-    @DeleteMapping("/{songName}")
-    public ResponseEntity<Void> delete(@PathVariable String songName) {
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@RequestParam String songName) {
         vinylService.delete(songName);
         return ResponseEntity.ok().build();
     }

@@ -111,7 +111,5 @@ public class VinylService {
         author.getVinyls().add(vinyl);
 
         author.setName("tata modified in transaction");
-
-        System.out.println("Ok c'est sauvegardé");
     }
 }

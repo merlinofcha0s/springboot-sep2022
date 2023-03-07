@@ -39,8 +39,8 @@ public class EmployeeResource {
         }
     }
 
-    @GetMapping("/get-by-salary/{salary}")
-    public ResponseEntity<List<EmployeeDTO>> getAllBySalary(@PathVariable Long salary) {
+    @GetMapping("/get-by-salary")
+    public ResponseEntity<List<EmployeeDTO>> getAllBySalary(@RequestParam Long salary) {
         List<EmployeeDTO> allBySalary = employeeService.getBySalary(salary);
 
         if (allBySalary.isEmpty()) {
@@ -50,8 +50,8 @@ public class EmployeeResource {
         }
     }
 
-    @GetMapping("/get-by-job-title/{jobTitle}")
-    public ResponseEntity<List<EmployeeDTO>> getByJobTitle(@PathVariable String jobTitle) {
+    @GetMapping("/get-by-job-title")
+    public ResponseEntity<List<EmployeeDTO>> getByJobTitle(@RequestParam String jobTitle) {
         List<EmployeeDTO> allByJobTitle = employeeService.getByJobTitle(jobTitle);
 
         if (allByJobTitle.isEmpty()) {
@@ -71,8 +71,8 @@ public class EmployeeResource {
         return ResponseEntity.ok(employeeService.save(employeeDTO));
     }
 
-    @DeleteMapping("/by-salary/{salary}")
-    public ResponseEntity<Void> delete(@PathVariable Long salary) {
+    @DeleteMapping("/by-salary")
+    public ResponseEntity<Void> delete(@RequestParam Long salary) {
         int nbRemoved = employeeService.deleteBySalary(salary);
         if (nbRemoved == 0) {
             return ResponseEntity.notFound().build();
@@ -80,8 +80,8 @@ public class EmployeeResource {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/by-id/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
+    @DeleteMapping("/by-id")
+    public ResponseEntity<Void> deleteById(@RequestParam UUID id) {
         try {
             employeeService.deleteById(id);
             return ResponseEntity.ok().build();
